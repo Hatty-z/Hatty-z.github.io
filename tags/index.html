@@ -9,9 +9,10 @@
     <!-- preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v2/dist/waline.css"
-/>
-
+    <link 
+      rel="stylesheet" 
+      href="https://unpkg.com/@waline/client@v3/dist/waline.css"
+    />
 
     
     <!--- Seo Part-->
@@ -708,14 +709,13 @@
 
         <div id="waline"></div>
         <script type="module">
-        import { init } from 'https://unpkg.com/@waline/client@v2/dist/waline.mjs';
+            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
-        init({
+            init({
             el: '#waline',
             serverURL: 'https://waline-fawn-pi-17.vercel.app',
-        });
+            });
         </script>
-
     </div>  
 </footer>
         </div>
