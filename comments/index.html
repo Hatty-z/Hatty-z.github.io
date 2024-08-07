@@ -550,8 +550,12 @@
 </main>
 
 <!-- 引入 Swup 和 Waline 脚本 -->
+<!-- Swup -->
 <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@waline/client@latest/dist/Waline.min.js"></script>
+
+<!-- Waline -->
+<script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // 初始化 Swup
@@ -564,7 +568,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('waline')) {
       Waline.init({
         el: '#waline',
-        serverURL: 'https://waline-ten-xi.vercel.app', // 从配置文件中读取 serverURL
+        serverURL: 'https://waline-ten-xi.vercel.app', 
         path: window.location.pathname,
       });
     }

@@ -177,12 +177,13 @@ export default function initUtils() {
         }
       }
     },
-
+    
     toggleToolsList() {
       this.toggleButton.addEventListener("click", () => {
         this.toolsList.classList.toggle("show");
       });
     },
+    
 
     fontAdjPlus_dom: document.querySelector(".tool-font-adjust-plus"),
     fontAdMinus_dom: document.querySelector(".tool-font-adjust-minus"),
