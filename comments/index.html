@@ -549,20 +549,22 @@
   
 </main>
 
-<!-- 初始化 Swup 和 Waline 评论系统 -->
+<!-- 引入 Swup 和 Waline 脚本 -->
 <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-<script src="/js/Waline.min.js"></script> <!-- 使用本地文件 -->
+<script src="https://cdn.jsdelivr.net/npm/@waline/client@latest/dist/Waline.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // 初始化 Swup
   const swup = new Swup({
     plugins: [new SwupScriptsPlugin()]
   });
 
+  // 初始化 Waline
   function initWaline() {
     if (document.getElementById('waline')) {
       Waline.init({
         el: '#waline',
-        serverURL: 'https://waline-ten-xi.vercel.app', // 确保在配置文件中定义了 serverURL
+        serverURL: 'https://waline-ten-xi.vercel.app', // 从配置文件中读取 serverURL
         path: window.location.pathname,
       });
     }
