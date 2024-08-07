@@ -10463,3 +10463,6 @@ div.tabs .tab-content .tab-pane .note:last-child {
   white-space: nowrap;
   width: 100%;
 }
+.page-views {
+  display: none;
+}
