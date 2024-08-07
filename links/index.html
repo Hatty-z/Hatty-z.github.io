@@ -22,15 +22,13 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content=".page-background {     background-image: url(&#39;&#x2F;images&#x2F;background.png&#39;);     background-size: cover;     background-position: center;     background-repeat: no-repeat;     background-attachment: fix">
-<meta property="og:type" content="website">
+        <meta property="og:type" content="website">
 <meta property="og:title" content="友链">
 <meta property="og:url" content="http://hatty-z.github.io/links/index.html">
 <meta property="og:site_name" content="Hatty~de 秘密基地">
-<meta property="og:description" content=".page-background {     background-image: url(&#39;&#x2F;images&#x2F;background.png&#39;);     background-size: cover;     background-position: center;     background-repeat: no-repeat;     background-attachment: fix">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-03T05:36:19.000Z">
-<meta property="article:modified_time" content="2024-08-07T08:40:02.587Z">
+<meta property="article:modified_time" content="2024-08-07T08:59:20.766Z">
 <meta property="article:author" content="Hatty">
 <meta name="twitter:card" content="summary">
     
@@ -669,20 +667,7 @@
     
     <div class="page-template-content markdown-body">
         
-            <style>
-  .page-background {
-    background-image: url('/images/background.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    backdrop-filter: blur(5px); 
-  }
-</style>
-
-<div class="page-background">
-
-</div>
+            
         
     </div>
     <div class="page-template-comments">
@@ -767,6 +752,21 @@
             </script>
         
         
+
+        
+            <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css">
+
+            <div id="waline"></div>
+
+            <script src="https://unpkg.com/@waline/client@v3/dist/waline.js"></script>
+            <script>
+                // 初始化 Waline
+                Waline.init({
+                el: '#waline', 
+                serverURL: 'https://waline-ten-xi.vercel.app', 
+                });
+            </script>
+            
 
     </div>  
 </footer>
