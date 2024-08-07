@@ -575,7 +575,7 @@ initWaline();
 
 // Swup 切换页面内容后初始化 Waline
 swup.on('contentReplaced', function () {
-  initWaline();
+  isetTimeout(initWaline, 100);
 });
 </script>
 
