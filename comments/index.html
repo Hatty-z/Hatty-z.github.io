@@ -553,26 +553,28 @@
 <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
 <script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
 <script>
-const swup = new Swup({
-  plugins: [new SwupScriptsPlugin()]
-});
+document.addEventListener('DOMContentLoaded', function() {
+  const swup = new Swup({
+    plugins: [new SwupScriptsPlugin()]
+  });
 
-function initWaline() {
-  if (document.getElementById('waline')) {
-    Waline.init({
-      el: '#waline',
-      serverURL: 'https://waline-ten-xi.vercel.app',
-      path: window.location.pathname,
-    });
+  function initWaline() {
+    if (document.getElementById('waline')) {
+      Waline.init({
+        el: '#waline',
+        serverURL: 'https://waline-ten-xi.vercel.app',
+        path: window.location.pathname,
+      });
+    }
   }
-}
 
-// 初始加载页面时初始化 Waline
-initWaline();
+  // 初始加载页面时初始化 Waline
+  initWaline();
 
-// Swup 切换页面内容后初始化 Waline
-swup.on('contentReplaced', function () {
-  setTimeout(initWaline, 100);
+  // Swup 切换页面内容后初始化 Waline
+  swup.on('contentReplaced', function () {
+    setTimeout(initWaline, 100);
+  });
 });
 </script>
 
