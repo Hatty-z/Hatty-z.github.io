@@ -22,15 +22,13 @@
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
     
-        <meta name="description" content="留言板欢迎来到留言板！在这里留下您的想法吧。">
-<meta property="og:type" content="website">
+        <meta property="og:type" content="website">
 <meta property="og:title" content="留言板">
 <meta property="og:url" content="http://hatty-z.github.io/comments/index.html">
 <meta property="og:site_name" content="Hatty~de 秘密基地">
-<meta property="og:description" content="留言板欢迎来到留言板！在这里留下您的想法吧。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-08-07T01:38:22.545Z">
+<meta property="article:modified_time" content="2024-08-07T07:05:29.889Z">
 <meta property="article:author" content="Hatty">
 <meta name="twitter:card" content="summary">
     
@@ -611,11 +609,13 @@
 
             <div class="main-content">
                 <article class="page">
-                    <h1>留言板</h1>
-                    <h1 id="留言板"><a href="#留言板" class="headerlink" title="留言板"></a>留言板</h1><p>欢迎来到留言板！在这里留下您的想法吧。</p>
+                    <!-- 留言板模块 -->
+                    <div class="message-board">
+                        <h1>留言板</h1>
+                        <p>在基地留下你的足迹叭</p>
+                    </div>
 
-
-                    <!-- 添加评论系统 -->
+                    <!-- 评论系统 -->
                     <div id="waline"></div>
                 </article>
             </div>
@@ -741,42 +741,6 @@
     
 </main>
 
-
-    
-<script src="/js/libs/Swup.min.js"></script>
-
-<script src="/js/libs/SwupSlideTheme.min.js"></script>
-
-<script src="/js/libs/SwupScriptsPlugin.min.js"></script>
-
-<script src="/js/libs/SwupProgressPlugin.min.js"></script>
-
-<script src="/js/libs/SwupScrollPlugin.min.js"></script>
-
-<script src="/js/libs/SwupPreloadPlugin.min.js"></script>
-
-<script>
-    const swup = new Swup({
-        plugins: [
-            new SwupScriptsPlugin({
-                optin: true,
-            }),
-            new SwupProgressPlugin(),
-            new SwupScrollPlugin({
-                offset: 80,
-            }),
-            new SwupSlideTheme({
-                mainElement: ".main-content-body",
-            }),
-            new SwupPreloadPlugin(),
-        ],
-        containers: ["#swup"],
-    });
-</script>
-
-
-
-
 <!-- 初始化 Swup 和 Waline 评论系统 -->
 <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
 <script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
@@ -789,18 +753,27 @@
     if (document.getElementById('waline')) {
       Waline.init({
         el: '#waline',
-        serverURL: 'https://your-waline-server-url', 
+        serverURL: 'https://waline-ten-xi.vercel.app', 
         path: window.location.pathname,
       });
     }
   }
 
   initWaline();
-
+  
   swup.on('contentReplaced', function () {
     initWaline();
   });
 </script>
+
+<style>
+  .message-board {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+</style>
 
 
 <script src="/js/tools/imageViewer.js" type="module"></script>
