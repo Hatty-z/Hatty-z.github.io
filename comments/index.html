@@ -777,12 +777,28 @@
 
 
 
-<!-- 初始化 Waline 评论系统 -->
+<!-- 初始化 Swup 和 Waline 评论系统 -->
+<script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
+<script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
 <script>
-  Waline.init({
-    el: '#waline',
-    serverURL: 'https://waline-ten-xi.vercel.app', 
-    path: window.location.pathname,
+  const swup = new Swup({
+    plugins: [new SwupScriptsPlugin()]
+  });
+
+  function initWaline() {
+    if (document.getElementById('waline')) {
+      Waline.init({
+        el: '#waline',
+        serverURL: 'https://your-waline-server-url', 
+        path: window.location.pathname,
+      });
+    }
+  }
+
+  initWaline();
+
+  swup.on('contentReplaced', function () {
+    initWaline();
   });
 </script>
 
