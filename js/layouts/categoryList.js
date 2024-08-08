@@ -1,6 +1,5 @@
 const toggleStyle = (element, style, firstValue, secondValue) => {
-  element.style[style] =
-    element.style[style] === firstValue ? secondValue : firstValue;
+  element.style[style] = element.style[style] === firstValue ? secondValue : firstValue;
 };
 
 const setupCategoryList = () => {
