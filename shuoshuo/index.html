@@ -13,10 +13,7 @@
       rel="stylesheet" 
       href="https://unpkg.com/@waline/client@v3/dist/waline.css"
     />
-    <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@latest/dist/SwupScriptsPlugin.min.js"></script>
-    <script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
-    
+  
     
     <!--- Seo Part-->
     
@@ -589,7 +586,7 @@
             <li class="w-full flex flex-row relative">
                 <div class="w-10 h-10 mr-4 rounded-lg overflow-hidden border border-border-color p-[1px] flex-shrink-0"><img src="/images/avatar.jpg" class="w-full h-full rounded-[6.2px]"></div>
                 <div class="w-full border-border-color rounded-xl rounded-tl-none redefine-box-shadow-flat overflow-hidden">
-                    <div class="px-4 py-1.5 text-sm border-b border-border-color bg-zinc-50 dark:bg-zinc-800 text-third-text-color">上周六08:00</div>
+                    <div class="px-4 py-1.5 text-sm border-b border-border-color bg-zinc-50 dark:bg-zinc-800 text-third-text-color">2024/08/03</div>
                     <div id="shuoshuo-content" class="px-4 py-2"><p>基地开始施工！</p>
 </div>
                 </div>
@@ -691,15 +688,13 @@
         
         
 
-
         <div id="waline"></div>
+        <script type="module">
+            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
-        <script src="https://unpkg.com/@waline/client@v3/dist/waline.js"></script>
-        <script>
-            // 初始化 Waline
-            Waline.init({
-            el: '#waline', 
-            serverURL: 'https://waline-ten-xi.vercel.app', 
+            init({
+            el: '#waline',
+            serverURL: 'https://waline-ten-xi.vercel.app',
             });
         </script>
 
@@ -901,5 +896,5 @@
 </div>
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</body>
 </html>

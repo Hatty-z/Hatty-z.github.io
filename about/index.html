@@ -13,10 +13,7 @@
       rel="stylesheet" 
       href="https://unpkg.com/@waline/client@v3/dist/waline.css"
     />
-    <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@latest/dist/SwupScriptsPlugin.min.js"></script>
-    <script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
-    
+  
     
     <!--- Seo Part-->
     
@@ -672,15 +669,13 @@
         
         
 
-
         <div id="waline"></div>
+        <script type="module">
+            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
-        <script src="https://unpkg.com/@waline/client@v3/dist/waline.js"></script>
-        <script>
-            // 初始化 Waline
-            Waline.init({
-            el: '#waline', 
-            serverURL: 'https://waline-ten-xi.vercel.app', 
+            init({
+            el: '#waline',
+            serverURL: 'https://waline-ten-xi.vercel.app',
             });
         </script>
 
@@ -882,5 +877,5 @@
 </div>
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</body>
 </html>

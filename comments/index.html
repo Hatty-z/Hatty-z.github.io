@@ -13,10 +13,7 @@
       rel="stylesheet" 
       href="https://unpkg.com/@waline/client@v3/dist/waline.css"
     />
-    <script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-    <script src="https://unpkg.com/@swup/scripts-plugin@latest/dist/SwupScriptsPlugin.min.js"></script>
-    <script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
-    
+  
     
     <!--- Seo Part-->
     
@@ -33,7 +30,7 @@
 <meta property="og:description" content="在基地留下你的足迹叭…">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-08-07T14:10:21.000Z">
-<meta property="article:modified_time" content="2024-08-07T14:55:30.472Z">
+<meta property="article:modified_time" content="2024-08-10T01:00:12.589Z">
 <meta property="article:author" content="Hatty">
 <meta name="twitter:card" content="summary">
     
@@ -115,10 +112,47 @@
 
 
 <body>
-<main class="page-container" id="swup">
-  <div class="main-content-container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>留言板 </title>
+  <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css">
+  <style>
+    .message-board {
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .message-board .card-title {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .message-board .card-text {
+      font-size: 16px;
+    }
+    .main-content-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .main-content-body {
+      flex: 1;
+    }
+    .main-content-footer {
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <main class="page-container" id="swup">
+    <div class="main-content-container">
       <div class="main-content-header">
-          <header class="navbar-container px-6 md:px-12">
+        <header class="navbar-container px-6 md:px-12">
 
     <div class="navbar-content ">
         <div class="left">
@@ -410,27 +444,27 @@
       </div>
 
       <div class="main-content-body">
-          <div class="main-content">
-              <article class="page">
-                  <!-- 留言板模块 -->
-                  <div class="card message-board">
-                      <div class="card-body">
-                          <h1 class="card-title">留言板</h1>
-                          <div class="card-text">
-                              <p>在基地留下你的足迹叭…</p>
+        <div class="main-content">
+          <article class="page">
+            <!-- 留言板模块 -->
+            <div class="card message-board">
+              <div class="card-body">
+                <h1 class="card-title">留言板 </h1>
+                <div class="card-text">
+                  <p>在基地留下你的足迹叭…</p>
 
-                          </div>
-                      </div>
-                  </div>
+                </div>
+              </div>
+            </div>
 
-                  <!-- 评论系统 -->
-                  <div id="waline"></div>
-              </article>
-          </div>
+            <!-- 评论系统 -->
+            <div id="waline"></div>
+          </article>
+        </div>
       </div>
 
       <div class="main-content-footer">
-          <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+        <footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
     <div class="info-container py-3 text-center">
         
             <div class="customize-info my-1"><p>嘟嘟，你已经成为秘密基地成员，和我一起探索吧！</p></div>
@@ -498,29 +532,27 @@
         
         
 
-
         <div id="waline"></div>
+        <script type="module">
+            import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
 
-        <script src="https://unpkg.com/@waline/client@v3/dist/waline.js"></script>
-        <script>
-            // 初始化 Waline
-            Waline.init({
-            el: '#waline', 
-            serverURL: 'https://waline-ten-xi.vercel.app', 
+            init({
+            el: '#waline',
+            serverURL: 'https://waline-ten-xi.vercel.app',
             });
         </script>
 
     </div>  
 </footer>
       </div>
-  </div>
+    </div>
 
-  <div class="image-viewer-container">
+    <div class="image-viewer-container">
     <img src="">
 </div>
 
 
-  
+    
       <div class="search-pop-overlay">
     <div class="popup search-popup">
         <div class="search-header">
@@ -549,123 +581,100 @@
     </div>
 </div>
 
-  
-</main>
+    
+  </main>
 
-<!-- 引入 Swup 和 Waline 脚本 -->
-<!-- Swup -->
-<script src="https://unpkg.com/@swup/swup@latest/dist/swup.min.js"></script>
-<script src="https://unpkg.com/@swup/scripts-plugin@latest/dist/SwupScriptsPlugin.min.js"></script>
+  <!-- 引入 Swup 和 Waline 脚本 -->
+  <script src="https://unpkg.com/swup@4.7.0/dist/swup.min.js"></script>
+  <script src="https://unpkg.com/@swup/scripts-plugin@2.1.0/dist/SwupScriptsPlugin.min.js"></script>
+  <script src="https://unpkg.com/@waline/client@3.3.0/dist/Waline.min.js"></script>
 
-<!-- Waline -->
-<script src="https://unpkg.com/@waline/client@latest/dist/Waline.min.js"></script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // 初始化 Swup
-  const swup = new Swup({
-    plugins: [new SwupScriptsPlugin()]
-  });
-
-  // 初始化 Waline
-  function initWaline() {
-    if (document.getElementById('waline')) {
-      Waline.init({
-        el: '#waline',
-        serverURL: 'https://waline-ten-xi.vercel.app',
-        path: window.location.pathname,
-      });
-    }
-  }
-
-  // 初始加载页面时初始化 Waline
-  initWaline();
-
-  // Swup 切换页面内容后初始化 Waline
-  swup.on('contentReplaced', function () {
-    setTimeout(initWaline, 100);
-  });
-
-  // 初始化类别列表
-  function setupCategoryList() {
-    const parentElements = Array.from(
-      document.querySelectorAll(".all-category-list-item")
-    ).filter((item) =>
-      item.parentElement.classList.contains("all-category-list")
-    );
-
-    parentElements.forEach((parentElement) => {
-      const childElements = parentElement.querySelectorAll(
-        ".all-category-list-child"
-      );
-      childElements.forEach((childElement) => {
-        childElement.style.maxHeight = "0px";
-        childElement.style.marginTop = "0px";
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 初始化 Swup
+      const swup = new Swup({
+        plugins: [new SwupScriptsPlugin()]
       });
 
-      parentElement.addEventListener("click", () => {
-        const clickedElementTopOffset = parentElement.offsetTop;
-        childElements.forEach((childElement) => {
-          toggleStyle(childElement, "maxHeight", "0px", "1000px");
-          toggleStyle(childElement, "marginTop", "0px", "15px");
-        });
+      // 初始化 Waline
+      function initWaline() {
+        const walineElement = document.getElementById('waline');
+        if (walineElement && !walineElement.hasAttribute('data-waline-initialized')) {
+          Waline.init({
+            el: walineElement,
+            serverURL: 'https://waline-ten-xi.vercel.app',
+            path: window.location.pathname,
+          });
+          walineElement.setAttribute('data-waline-initialized', 'true');
+        }
+      }
 
-        parentElements.forEach((siblingElement) => {
-          if (
-            siblingElement.offsetTop === clickedElementTopOffset &&
-            siblingElement !== parentElement
-          ) {
-            const siblingChildElements = siblingElement.querySelectorAll(
-              ".all-category-list-child"
-            );
-            siblingChildElements.forEach((siblingChildElement) => {
-              toggleStyle(siblingChildElement, "maxHeight", "0px", "1000px");
-              toggleStyle(siblingChildElement, "marginTop", "0px", "15px");
+      // 初始加载页面时初始化 Waline
+      initWaline();
+
+      // Swup 切换页面内容后重新初始化
+      swup.on('contentReplaced', function () {
+        initWaline();
+        setupCategoryList();
+      });
+
+      // 初始化类别列表
+      function setupCategoryList() {
+        const parentElements = Array.from(
+          document.querySelectorAll(".all-category-list-item")
+        ).filter((item) =>
+          item.parentElement.classList.contains("all-category-list")
+        );
+
+        parentElements.forEach((parentElement) => {
+          const childElements = parentElement.querySelectorAll(
+            ".all-category-list-child"
+          );
+          childElements.forEach((childElement) => {
+            childElement.style.maxHeight = "0px";
+            childElement.style.marginTop = "0px";
+          });
+
+          parentElement.addEventListener("click", () => {
+            const clickedElementTopOffset = parentElement.offsetTop;
+            childElements.forEach((childElement) => {
+              toggleStyle(childElement, "maxHeight", "0px", "1000px");
+              toggleStyle(childElement, "marginTop", "0px", "15px");
             });
-          }
+
+            parentElements.forEach((siblingElement) => {
+              if (
+                siblingElement.offsetTop === clickedElementTopOffset &&
+                siblingElement !== parentElement
+              ) {
+                const siblingChildElements = siblingElement.querySelectorAll(
+                  ".all-category-list-child"
+                );
+                siblingChildElements.forEach((siblingChildElement) => {
+                  toggleStyle(siblingChildElement, "maxHeight", "0px", "1000px");
+                  toggleStyle(siblingChildElement, "marginTop", "0px", "15px");
+                });
+              }
+            });
+          });
         });
+      }
+
+      // 页面初次加载时初始化类别列表
+      setupCategoryList();
+
+      // 切换页面内容后重新初始化类别列表
+      swup.on('contentReplaced', function () {
+        setupCategoryList();
       });
     });
-  }
 
-  // 页面初次加载时初始化类别列表
-  setupCategoryList();
-
-  // Swup 切换页面内容后重新初始化类别列表
-  swup.on('contentReplaced', function () {
-    setupCategoryList();
-  });
-});
-</script>
-
-<style>
-.message-board {
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.message-board .card-title {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.message-board .card-text {
-  font-size: 16px;
-}
-.main-content-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-.main-content-body {
-  flex: 1;
-}
-.main-content-footer {
-  margin-top: auto;
-}
-</style>
+    function toggleStyle(element, property, offValue, onValue) {
+      element.style[property] = element.style[property] === offValue ? onValue : offValue;
+    }
+  </script>
+</body>
+</html>
 
 
 <script src="/js/tools/imageViewer.js" type="module"></script>
@@ -741,5 +750,5 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</body>
 </html>
