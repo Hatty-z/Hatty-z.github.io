@@ -181,44 +181,62 @@ Setting：设置<br>
 查阅资料：<br>
 两种量化方式的比较<br>
 (A) <strong>动态量化</strong> (Dynamic Quantization)<br>
-动态量化在推理过程中对激活值（如权重和中间结果）进行量化。这意味着模型在推理时会动态地将某些浮点运算转换为整数运算，以提高推理效率。此方法不需要校准数据集，适合一些模型在部署时简化量化过程。<br>
-- 优点:<br>
-- 不需要校准数据集，过程较为简单。<br>
-- 可以立即用于大部分推理任务。<br>
-- 通常会保留浮点精度，适用于大部分任务。<br>
-- 缺点:<br>
-- 对硬件加速器的支持不如静态量化好。<br>
-- 在一些情况下，推理速度的提升有限。<br>
-(B) 静态量化 (Static Quantization)<br>
-静态量化需要在推理之前对整个模型进行量化。它通常使用校准数据集来估计模型的激活范围，并将其转化为整数格式。这种方法可以显著降低模型的大小和计算复杂度，并且在硬件加速器（如ESP32-S3）上表现更好。<br>
-- 优点:<br>
-- 大幅减少模型的大小和计算成本。<br>
-- 在硬件加速器上的性能优化效果更明显。<br>
-- 可用于部署在资源受限的设备上，如微控制器。<br>
-- 缺点:<br>
-- 需要一个校准数据集，步骤较为复杂。<br>
-- 可能会导致精度下降，尤其是在模型对量化敏感的情况下。<br>
-1. 如何选择<br>
+动态量化在推理过程中对激活值（如权重和中间结果）进行量化。这意味着模型在推理时会动态地将某些浮点运算转换为整数运算，以提高推理效率。此方法不需要校准数据集，适合一些模型在部署时简化量化过程。</p>
+<ul>
+<li>优点:
+<ul>
+<li>不需要校准数据集，过程较为简单。</li>
+<li>可以立即用于大部分推理任务。</li>
+<li>通常会保留浮点精度，适用于大部分任务。</li>
+</ul>
+</li>
+<li>缺点:
+<ul>
+<li>对硬件加速器的支持不如静态量化好。</li>
+<li>在一些情况下，推理速度的提升有限。<br>
+(B) <strong>静态量化</strong> (Static Quantization)<br>
+静态量化需要在推理之前对整个模型进行量化。它通常使用校准数据集来估计模型的激活范围，并将其转化为整数格式。这种方法可以显著降低模型的大小和计算复杂度，并且在硬件加速器（如ESP32-S3）上表现更好。</li>
+</ul>
+</li>
+<li>优点:
+<ul>
+<li>大幅减少模型的大小和计算成本。</li>
+<li>在硬件加速器上的性能优化效果更明显。</li>
+<li>可用于部署在资源受限的设备上，如微控制器。</li>
+</ul>
+</li>
+<li>缺点:
+<ul>
+<li>需要一个校准数据集，步骤较为复杂。<br>
+- 可能会导致精度下降，尤其是在模型对量化敏感的情况下。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>如何选择<br>
 - 如果你需要一个较为简单的量化过程，并且对性能要求不高，可以选择动态量化。<br>
-- 如果你希望最大化模型在硬件上的性能，且有校准数据集，那么静态量化可能是更好的选择。</p>
+- 如果你希望最大化模型在硬件上的性能，且有校准数据集，那么静态量化可能是更好的选择。</li>
+</ol>
 </blockquote>
 <ul>
 <li><strong>蒸馏学习</strong> ：使用一个大模型（教师模型）指导小模型（学生模型）学习，提高小模型的性能。<br>
 减少模型的计算量与内存占用，提高推理速度与部署效率</li>
 </ul>
 <h2 id="6-模型部署">6. 模型部署</h2>
-<p>选择合适的推理框架（TensorFlow Lite, ONNX Runtime等）</p>
+<p>选择合适的<strong>推理框架</strong>（TensorFlow Lite, ONNX Runtime等）</p>
 <blockquote>
 <p>查阅TensorFlow Lite  &amp; ONNX Runtime<br>
-<strong>平台和兼容性</strong>：<br>
-- TensorFlow Lite：主要设计用于移动和嵌入式设备上，如Android和iOS手机。它对TensorFlow生态系统有很好的支持。<br>
-- ONNX Runtime：支持多种平台，包括Windows、Linux、MacOS以及移动设备。它可以执行用多种框架训练的模型，只要这些模型被转换成ONNX格式，如PyTorch、TensorFlow、Scikit-Learn等。<br>
-模型转换和支持：<br>
-- TensorFlow Lite：需要将TensorFlow模型转换成TFLite格式。这一过程可能涉及到功能的简化或修改，因为TFLite不支持TensorFlow的全部操作。<br>
-- ONNX Runtime：可以加载ONNX格式的模型，这是一个开放的模型格式，支持多种深度学习框架。如果你的模型是用PyTorch、MXNet等其他框架训练的，ONNX Runtime可能是更好的选择。<br>
-性能和优化：<br>
-- TensorFlow Lite：提供了多种优化选项，包括量化和使用硬件加速（如GPU和TPU）。<br>
-- ONNX Runtime：也提供优化和硬件加速支持，包括使用NVIDIA的TensorRT、Intel的DNNL等。它的性能优化通常在服务器和云环境中表现更为突出。</p>
+<strong>平台和兼容性</strong>：</p>
+<ul>
+<li>TensorFlow Lite：主要设计用于移动和嵌入式设备上，如Android和iOS手机。它对TensorFlow生态系统有很好的支持。</li>
+<li>ONNX Runtime：支持多种平台，包括Windows、Linux、MacOS以及移动设备。它可以执行用多种框架训练的模型，只要这些模型被转换成ONNX格式，如PyTorch、TensorFlow、Scikit-Learn等。<br>
+<strong>模型转换和支持</strong>：</li>
+<li>TensorFlow Lite：需要将TensorFlow模型转换成TFLite格式。这一过程可能涉及到功能的简化或修改，因为TFLite不支持TensorFlow的全部操作。</li>
+<li>ONNX Runtime：可以加载ONNX格式的模型，这是一个开放的模型格式，支持多种深度学习框架。如果你的模型是用PyTorch、MXNet等其他框架训练的，ONNX Runtime可能是更好的选择。<br>
+<strong>性能和优化</strong>：</li>
+<li>TensorFlow Lite：提供了多种优化选项，包括量化和使用硬件加速（如GPU和TPU）。</li>
+<li>ONNX Runtime：也提供优化和硬件加速支持，包括使用NVIDIA的TensorRT、Intel的DNNL等。它的性能优化通常在服务器和云环境中表现更为突出。</li>
+</ul>
 </blockquote>
 <h2 id="7-监控与维护">7.  监控与维护</h2>
 <ul>
@@ -226,6 +244,161 @@ Setting：设置<br>
 <li>定期更新：根据新数据和新需求，定期更新和重新训练模型，保持模型性能。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>模型轻量化部署</category>
+      </categories>
+      <tags>
+        <tag>嵌入式ai</tag>
+        <tag>esp32</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手势识别模型部署在esp32s3（二）</title>
+    <url>/2024/09/17/%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%9C%A8esp32s3%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h1>手势识别模型</h1>
+<h2 id="1-数据">1. 数据</h2>
+<h3 id="1-1-标注">1.1 标注</h3>
+<blockquote>
+<p>用于识别原始数据（图片、文本文件、视频等）并添加一个或多个有意义的信息标签以提供上下文，从而使机器学习模型能够从中学习<br>
+<strong>每张图片生成对应标签文件</strong><br>
+标签文件仅含有一个表示手势种类的标签<br>
+多个标签可能导致训练过程中标签文件读取错误，也可以处理只读取手势类别的标签</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="comment">#手势与标签的映射</span></span><br><span class="line">class_mapping = &#123;</span><br><span class="line">    <span class="string">&#x27;01_palm&#x27;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">&#x27;02_l&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&#x27;03_fist&#x27;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">&#x27;04_fist_moved&#x27;</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="string">&#x27;05_thumb&#x27;</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="string">&#x27;06_index&#x27;</span>: <span class="number">5</span>,</span><br><span class="line">    <span class="string">&#x27;07_ok&#x27;</span>: <span class="number">6</span>,</span><br><span class="line">    <span class="string">&#x27;08_palm_moved&#x27;</span>: <span class="number">7</span>,</span><br><span class="line">    <span class="string">&#x27;09_c&#x27;</span>: <span class="number">8</span>,</span><br><span class="line">    <span class="string">&#x27;10_down&#x27;</span>: <span class="number">9</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data_path = <span class="string">&#x27;leapGestRecog&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#遍历图片，根据文件夹名称对应手势种类，标注图片</span></span><br><span class="line"><span class="keyword">for</span> group <span class="keyword">in</span> os.listdir(data_path):</span><br><span class="line">    group_path = os.path.join(data_path, group)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(group_path):</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> gesture <span class="keyword">in</span> os.listdir(group_path):</span><br><span class="line">        gesture_path = os.path.join(group_path, gesture)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(gesture_path):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> gesture <span class="keyword">not</span> <span class="keyword">in</span> class_mapping:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        class_id = class_mapping[gesture]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> img_file <span class="keyword">in</span> os.listdir(gesture_path):</span><br><span class="line">            <span class="keyword">if</span> img_file.endswith(<span class="string">&#x27;.png&#x27;</span>):</span><br><span class="line">                img_path = os.path.join(gesture_path, img_file)</span><br><span class="line">                label_file = img_path.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>)</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(label_file, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(<span class="string">f&quot;<span class="subst">&#123;class_id&#125;</span>\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;标签文件更新完成。&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-划分数据集">1.2 划分数据集</h3>
+<p>这里划分了训练集和测试集，校准集从训练集和测试集中随机抽取</p>
+<blockquote>
+<p>划分训练集和测试集</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">data_path = <span class="string">&#x27;leapGestRecog&#x27;</span></span><br><span class="line"><span class="comment">#划分比例8：2</span></span><br><span class="line">train_ratio = <span class="number">0.8</span></span><br><span class="line">test_ratio = <span class="number">0.2</span></span><br><span class="line"></span><br><span class="line">train_data_path = <span class="string">&#x27;dataset/train&#x27;</span></span><br><span class="line">test_data_path = <span class="string">&#x27;dataset/test&#x27;</span></span><br><span class="line"></span><br><span class="line">os.makedirs(train_data_path, exist_ok=<span class="literal">True</span>)</span><br><span class="line">os.makedirs(test_data_path, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">split_data</span>(<span class="params">class_dir, dest_train_dir, dest_test_dir</span>):</span><br><span class="line">    files = [f <span class="keyword">for</span> f <span class="keyword">in</span> os.listdir(class_dir) <span class="keyword">if</span> f.endswith(<span class="string">&#x27;.png&#x27;</span>)]</span><br><span class="line">    labels = [f.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>) <span class="keyword">for</span> f <span class="keyword">in</span> files]</span><br><span class="line">    </span><br><span class="line">    train_files, test_files = train_test_split(files, test_size=test_ratio, random_state=<span class="number">42</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> train_files:</span><br><span class="line">        <span class="comment">#原图片，标签文件复制到目标文件位置</span></span><br><span class="line">        src_img = os.path.join(class_dir, file)</span><br><span class="line">        src_label = os.path.join(class_dir, file.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">        dst_img = os.path.join(dest_train_dir, file)</span><br><span class="line">        dst_label = os.path.join(dest_train_dir, file.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">        shutil.copy(src_img, dst_img)</span><br><span class="line">        shutil.copy(src_label, dst_label)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> test_files:</span><br><span class="line">        src_img = os.path.join(class_dir, file)</span><br><span class="line">        src_label = os.path.join(class_dir, file.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">        dst_img = os.path.join(dest_test_dir, file)</span><br><span class="line">        dst_label = os.path.join(dest_test_dir, file.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>))</span><br><span class="line">        </span><br><span class="line">        shutil.copy(src_img, dst_img)</span><br><span class="line">        shutil.copy(src_label, dst_label)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> group <span class="keyword">in</span> os.listdir(data_path):</span><br><span class="line">    group_path = os.path.join(data_path, group)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(group_path):</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> gesture <span class="keyword">in</span> os.listdir(group_path):</span><br><span class="line">        gesture_path = os.path.join(group_path, gesture)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(gesture_path):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        dest_train_dir = os.path.join(train_data_path, group, gesture)</span><br><span class="line">        dest_test_dir = os.path.join(test_data_path, group, gesture)</span><br><span class="line">        os.makedirs(dest_train_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line">        os.makedirs(dest_test_dir, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#每一组的每种手势都按照比例划分训练集和测试集</span></span><br><span class="line">        split_data(gesture_path, dest_train_dir, dest_test_dir)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;数据集划分完成！&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>划分校准集并存储为.pkl文件</p>
+</blockquote>
+<blockquote>
+<p>由于后续量化参考教程划分校准数据集，保存为.pkl，其实可以直接划分出校准数据集，保存到dataset/image目录，后续对校准数据集的预处理也较为方便</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line">train_data_path = <span class="string">&#x27;dataset/train&#x27;</span></span><br><span class="line">test_data_path = <span class="string">&#x27;dataset/test&#x27;</span></span><br><span class="line">calib_data_path = <span class="string">&#x27;dataset/calib&#x27;</span></span><br><span class="line"></span><br><span class="line">os.makedirs(calib_data_path, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_files_from_dir</span>(<span class="params">data_path</span>):</span><br><span class="line">    files = []</span><br><span class="line">    <span class="keyword">for</span> group <span class="keyword">in</span> os.listdir(data_path):</span><br><span class="line">        group_path = os.path.join(data_path, group)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(group_path):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> gesture <span class="keyword">in</span> os.listdir(group_path):</span><br><span class="line">            gesture_path = os.path.join(group_path, gesture)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(gesture_path):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(gesture_path):</span><br><span class="line">                <span class="keyword">if</span> file.endswith(<span class="string">&#x27;.png&#x27;</span>):</span><br><span class="line">                    img_path = os.path.join(gesture_path, file)</span><br><span class="line">                    label_path = os.path.join(gesture_path, file.replace(<span class="string">&#x27;.png&#x27;</span>, <span class="string">&#x27;.txt&#x27;</span>))</span><br><span class="line">                    <span class="comment">#将每个图像文件路径和对应的标签文件路径作为一个元组 (img_path, label_path)，并将这个元组添加到 files 列表中</span></span><br><span class="line">                    files.append((img_path, label_path))</span><br><span class="line">    <span class="keyword">return</span> files</span><br><span class="line"></span><br><span class="line">train_files = get_files_from_dir(train_data_path)</span><br><span class="line">test_files = get_files_from_dir(test_data_path)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定提取比例</span></span><br><span class="line">ts = <span class="number">0.3</span>  <span class="comment"># 从训练集中和测试集中各提取 30% 的数据作为校准集的一部分</span></span><br><span class="line"></span><br><span class="line">_, calib_train_files = train_test_split(train_files, test_size=ts, random_state=<span class="number">42</span>)</span><br><span class="line">_, calib_test_files = train_test_split(test_files, test_size=ts, random_state=<span class="number">42</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并校准数据集</span></span><br><span class="line">calib_files = calib_train_files + calib_test_files</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将校准数据集复制到新的目录</span></span><br><span class="line"><span class="keyword">for</span> img_path, label_path <span class="keyword">in</span> calib_files:</span><br><span class="line">    calib_img_path = img_path.replace(<span class="string">&#x27;dataset/train&#x27;</span>, <span class="string">&#x27;dataset/calib&#x27;</span>).replace(<span class="string">&#x27;dataset/test&#x27;</span>, <span class="string">&#x27;dataset/calib&#x27;</span>)</span><br><span class="line">    calib_label_path = label_path.replace(<span class="string">&#x27;dataset/train&#x27;</span>, <span class="string">&#x27;dataset/calib&#x27;</span>).replace(<span class="string">&#x27;dataset/test&#x27;</span>, <span class="string">&#x27;dataset/calib&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    os.makedirs(os.path.dirname(calib_img_path), exist_ok=<span class="literal">True</span>)</span><br><span class="line">    os.makedirs(os.path.dirname(calib_label_path), exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    shutil.copy(img_path, calib_img_path)</span><br><span class="line">    shutil.copy(label_path, calib_label_path)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;校准数据集提取完成！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存校准数据集为.pkl文件</span></span><br><span class="line">calib_images = []</span><br><span class="line">calib_labels = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> img_path, label_path <span class="keyword">in</span> calib_files:</span><br><span class="line">    <span class="comment">#使用二进制模式 (&#x27;rb&#x27;) 打开文件并读取其内容，将其作为字节流数据添加到 calib_images 列表中。</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(img_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        calib_images.append(f.read())  <span class="comment">#加载图片</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(label_path, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        calib_labels.append(f.read())  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 以二进制写模式 (&#x27;wb&#x27;) 打开（或创建）一个文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;X_cal.pkl&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment">#将 calib_images 列表序列化并写入文件 f</span></span><br><span class="line">    pickle.dump(calib_images, f)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;y_cal.pkl&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    pickle.dump(calib_labels, f)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;校准数据集已保存为.pkl文件！&quot;</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p>查阅.pkl文件<br>
+<strong>序列化数据</strong>：.pkl 文件使用 Python 的 pickle 模块保存，pickle 可以将 Python 对象序列化为字节流，这样可以方便地将数据对象（如列表、字典、NumPy 数组等）存储到文件中。<br>
+<strong>快速加载</strong>：相较于原始的文件格式（如文本文件或图像文件），pickle 可以更快地加载数据，因为它是直接将二进制数据加载回内存，而不需要进行文本解析或图像解码。<br>
+<strong>保存复杂数据结构</strong>：pickle 可以直接保存复杂的数据结构，例如包含多种类型的 Python 对象的列表或字典，而不需要进行特殊的转换。<br>
+<strong>便于后续使用</strong>：机器学习和数据科学中的很多工作流需要频繁加载和保存数据集，使用 .pkl 文件格式可以更高效地保存数据对象的状态，并在以后使用时方便地加载。</p>
+</blockquote>
+<h3 id="1-3-数据预处理（包含在模型训练脚本中）">1.3 数据预处理（包含在模型训练脚本中）</h3>
+]]></content>
+      <categories>
+        <category>模型轻量化部署</category>
+      </categories>
+      <tags>
+        <tag>嵌入式ai</tag>
+        <tag>esp32</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手势识别模型部署在esp32s3（三）</title>
+    <url>/2024/09/17/%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%9C%A8esp32s3%EF%BC%88%E4%B8%89%EF%BC%89/</url>
+    <content><![CDATA[<h1>手势识别模型</h1>
+<h2 id="2-模型选择与设计">2. 模型选择与设计</h2>
+<h3 id="查阅信息">查阅信息</h3>
+<h4 id="1-几个手势识别模型">1. 几个手势识别模型</h4>
+<p>以下是几种常见的手势识别模型：</p>
+<ol>
+<li>传统方法</li>
+</ol>
+<ul>
+<li>HOG + SVM：Histogram of Oriented Gradients (HOG) 特征提取方法与支持向量机（SVM）分类器结合。</li>
+<li>Haar-like 特征 + AdaBoost：使用 Haar-like 特征进行特征提取，然后通过 AdaBoost 算法进行分类。</li>
+</ul>
+<ol start="2">
+<li>深度学习方法</li>
+</ol>
+<ul>
+<li>卷积神经网络 (CNN)：例如LeNet, AlexNet, VGG, ResNet等，用于特征提取和分类。</li>
+<li>区域卷积神经网络 (R-CNN)：如 Faster R-CNN、Mask R-CNN，用于目标检测。</li>
+<li>YOLO (You Only Look Once)：YOLOv3, YOLOv4, YOLOv5, YOLOv8等，用于实时目标检测和识别。</li>
+<li>SSD (Single Shot MultiBox Detector)：用于实时目标检测。</li>
+<li>MobileNet：轻量级卷积神经网络，适用于移动设备。</li>
+<li>OpenPose：用于人体关键点检测的深度学习模型。</li>
+</ul>
+<h4 id="2-适合部署在硬件上的模型">2. 适合部署在硬件上的模型</h4>
+<p>在硬件上部署模型时，需要考虑模型的计算复杂度、内存需求以及推理速度。以下是几种适合部署在硬件上的轻量级模型：</p>
+<ul>
+<li>MobileNet：特别设计用于移动和嵌入式设备，计算效率高。</li>
+<li>YOLOv5/YOLOv8：其中的轻量级版本（如YOLOv5s/YOLOv8s）在嵌入式设备上表现良好。</li>
+<li>Tiny-YOLO：YOLO的精简版本，适合资源受限的设备。</li>
+<li>SqueezeNet：一种小型化的CNN，减少参数量和计算量。</li>
+<li>EfficientNet-Lite：EfficientNet的轻量级版本，专为移动设备优化。</li>
+</ul>
+<h4 id="3-部署到硬件上的难点">3. 部署到硬件上的难点</h4>
+<ul>
+<li>计算资源有限：嵌入式设备通常计算能力和内存有限，需要优化模型的大小和计算复杂度。</li>
+<li>功耗限制：移动设备的电池寿命是一个重要考虑因素，高效的模型设计和计算方法是必要的。</li>
+<li>实时性要求：手势识别通常需要实时处理，模型需要具备快速推理能力。</li>
+<li>硬件兼容性：不同的硬件平台（如NVIDIA Jetson, Raspberry Pi, FPGA, DSP等）对模型优化和部署有不同的要求。</li>
+<li>软件支持：需要合适的软件框架和工具链（如TensorFlow Lite, ONNX Runtime, OpenVINO等）来支持模型部署和推理。</li>
+</ul>
+<h4 id="部署优化技巧">部署优化技巧</h4>
+<ul>
+<li>模型剪枝和量化：减少模型参数和计算量，提升推理速度。</li>
+<li>硬件加速：利用硬件的加速能力，如GPU, NPU, TPU等。</li>
+<li>混合精度计算：使用FP16或INT8计算代替FP32，提高计算效率。</li>
+<li>输入分辨率调整：根据应用场景适当降低输入分辨率，减少计算负荷</li>
+</ul>
+<h3 id="cnn模型">cnn模型</h3>
+<h4 id="HandGestureCNN-类">HandGestureCNN 类</h4>
+<ul>
+<li>[] <strong>构造初始化模型架构和优化器，定义损失函数</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,learning_rate=<span class="number">0.001</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(HandGestureCNN,<span class="variable language_">self</span>).__init__()</span><br><span class="line">        <span class="variable language_">self</span>.model1=Sequential(</span><br><span class="line">            Conv2d(<span class="number">1</span>,<span class="number">32</span>,<span class="number">5</span>),</span><br><span class="line">            ReLU(),</span><br><span class="line">            MaxPool2d(<span class="number">2</span>),</span><br><span class="line">            Dropout(<span class="number">0.2</span>),</span><br><span class="line">            Conv2d(<span class="number">32</span>,<span class="number">64</span>,<span class="number">3</span>),</span><br><span class="line">            ReLU(),</span><br><span class="line">            MaxPool2d(<span class="number">2</span>),</span><br><span class="line">            Dropout(<span class="number">0.2</span>),</span><br><span class="line">            Conv2d(<span class="number">64</span>,<span class="number">64</span>,<span class="number">3</span>),</span><br><span class="line">            ReLU(),</span><br><span class="line">            MaxPool2d(<span class="number">2</span>),</span><br><span class="line">            Flatten(),</span><br><span class="line">            Linear(<span class="number">64</span>*<span class="number">10</span>*<span class="number">10</span>, <span class="number">128</span>), </span><br><span class="line">            ReLU(),</span><br><span class="line">            Linear(<span class="number">128</span>,<span class="number">10</span>),</span><br><span class="line">            Softmax(dim=<span class="number">1</span>)</span><br><span class="line">        )</span><br><span class="line">        <span class="variable language_">self</span>.loss_fn=CrossEntropyLoss()</span><br><span class="line">        <span class="variable language_">self</span>.optimizer=torch.optim.Adam(<span class="variable language_">self</span>.parameters(),lr=learning_rate)</span><br><span class="line">        </span><br><span class="line">  <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.model1(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
+<ul>
+<li>[] 保存，加载模型检查点（可选）</li>
+</ul>
+<blockquote>
+<p>刚开始进行模型训练，想法是每次训练较少轮数，训练结束后保存模型检查点（包括当前epoch数、模型状态字典以及优化器状态字典），下一次训练加载模型的检查点，如果文件存在，则恢复模型和优化器的状态，并返回上次保存的epoch数加1；否则返回0。<br>
+这样就可以<strong>在前一次训练的基础上继续训练</strong><br>
+<strong>但是</strong> 使用早停机制更为方便，并且可以防止过拟合</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">save_checkpoint</span>(<span class="params">self, epoch, path=<span class="string">&#x27;checkpoint.pth&#x27;</span></span>):</span><br><span class="line">    torch.save(&#123;</span><br><span class="line">        <span class="string">&#x27;epoch&#x27;</span>: epoch,</span><br><span class="line">        <span class="string">&#x27;model_state_dict&#x27;</span>: <span class="variable language_">self</span>.state_dict(),</span><br><span class="line">        <span class="string">&#x27;optimizer_state_dict&#x27;</span>: <span class="variable language_">self</span>.optimizer.state_dict()</span><br><span class="line">    &#125;, path)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_checkpoint</span>(<span class="params">self, path=<span class="string">&#x27;checkpoint.pth&#x27;</span></span>):</span><br><span class="line">    <span class="keyword">if</span> os.path.exists(path):</span><br><span class="line">        checkpoint = torch.load(path)</span><br><span class="line">        <span class="variable language_">self</span>.load_state_dict(checkpoint[<span class="string">&#x27;model_state_dict&#x27;</span>])</span><br><span class="line">        <span class="variable language_">self</span>.optimizer.load_state_dict(checkpoint[<span class="string">&#x27;optimizer_state_dict&#x27;</span>])</span><br><span class="line">        <span class="keyword">return</span> checkpoint[<span class="string">&#x27;epoch&#x27;</span>] + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h4 id="EarlyStopping-类">EarlyStopping 类</h4>
+<p>实现早停机制</p>
+<ul>
+<li>[] <strong>初始化早停机制参数</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, patience=<span class="number">5</span>, delta=<span class="number">0</span></span>):</span><br><span class="line">    <span class="variable language_">self</span>.patience = patience</span><br><span class="line">    <span class="variable language_">self</span>.delta = delta</span><br><span class="line">    <span class="variable language_">self</span>.best_score = <span class="literal">None</span></span><br><span class="line">    <span class="variable language_">self</span>.counter = <span class="number">0</span></span><br><span class="line">    <span class="variable language_">self</span>.early_stop = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>[] <strong>比较当前的验证损失</strong><br>
+val_loss 和历史最佳损失，如果当前损失优于历史最佳损失，则更新 best_score 并重置计数器 counter，同时保存当前模型状态；如果当前损失没有改进，则增加计数器 counter。如果计数器达到 patience，则设置 early_stop 标志为真，表示应该停止训练。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, val_loss, model</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="variable language_">self</span>.best_score <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="variable language_">self</span>.best_score = val_loss</span><br><span class="line">    <span class="keyword">elif</span> val_loss &lt; <span class="variable language_">self</span>.best_score - <span class="variable language_">self</span>.delta:</span><br><span class="line">        <span class="variable language_">self</span>.best_score = val_loss</span><br><span class="line">        <span class="variable language_">self</span>.counter = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        torch.save(model.state_dict(), <span class="string">&#x27;best_model.pth&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="variable language_">self</span>.counter += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.counter &gt;= <span class="variable language_">self</span>.patience:</span><br><span class="line">            <span class="variable language_">self</span>.early_stop = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="yolov8n">yolov8n</h3>
+<blockquote>
+<p>yolov8n和yolov5n进行了尝试，但是在部署阶段，由于模型较为复杂，很多网络层espdl不支持<br>
+可能需要重新定义模型<br>
+但是模型部署前的训练都已完成，并且识别准确率很高<br>
+这部分的文档后续补充，代码已经上传。。期待后面的更新。。。<br>
+也期待您提出建议！！</p>
+</blockquote>
+<h4 id="数据标注">数据标注</h4>
+<ol>
+<li>YOLO的标签文件需要每一行包含如下信息：<br>
+&lt;class_id&gt; &lt;x_center&gt; &lt;y_center&gt; <width> <height></li>
+</ol>
+<ul>
+<li>&lt;class_id&gt;：类别ID，从0开始。</li>
+<li>&lt;x_center&gt;：目标边界框中心点的x坐标，相对于图片宽度的比例。</li>
+<li>&lt;y_center&gt;：目标边界框中心点的y坐标，相对于图片高度的比例。</li>
+<li><width>：目标边界框的宽度，相对于图片宽度的比例。</li>
+<li><height>：目标边界框的高度，相对于图片高度的比例。</li>
+</ul>
+<ol start="2">
+<li>数据集图片已经分类到不同的文件夹中，并且你有一个类名到ID的映射（例如：01_palm -&gt; 0, 10_down -&gt; 9），需要编写一个脚本来生成YOLO格式的标签文件。</li>
+<li>github上下载模型，安装依赖</li>
+</ol>
+<h3 id="yolov5n">yolov5n</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd D:/Projects/HandRecog/yolov5</span><br><span class="line">python train.py --img 320 --epochs 1 --data ../dataset/data.yaml --weights yolov5n.pt --batch-size 4 --patience 5 --hyp D:/Projects/HandRecog/yolov5/data/hyps/hyp.scratch-low.yaml --project D:/Projects/HandRecog --name runs</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>模型轻量化部署</category>
       </categories>
