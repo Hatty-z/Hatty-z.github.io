@@ -2,18 +2,150 @@
 <search>
   <entry>
     <title>keil使用</title>
-    <url>/2024/09/15/keil%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[]]></content>
+    <url>/2024/09/16/keil%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="概述-来自搜索">概述(来自搜索)</h2>
+<p>Keil提供了包括C编译器、宏汇编、链接器、库管理和一个功能强大的仿真调试器等在内的完整开发方案，通过一个集成开发环境（μVision）将这些部分组合在一起。</p>
+<h2 id="keil新建工程（基于标准库）">keil新建工程（基于标准库）</h2>
+<p><a href="https://blog.csdn.net/EleganceJiaBao/article/details/141092467">keil工程文件</a><br>
+<a href="https://blog.csdn.net/MQ0522/article/details/121818240">STM32官方固件库（标准外设库下载)</a><br>
+<img src="/images/uav/keil_1.png" alt="Test"><br>
+keil.arm官网CMSIS PACKS<br>
+<img src="/images/uav/keil_2.png" alt="Test"><br>
+<a href="https://blog.csdn.net/lnfiniteloop/article/details/134943893?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522B3185469-384D-496E-BBE1-4C414176F11F%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=B3185469-384D-496E-BBE1-4C414176F11F&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-2-134943893-null-null.142%5Ev100%5Epc_search_result_base9&amp;utm_term=keil%E6%96%B0%E5%BB%BAstm32%E5%B7%A5%E7%A8%8B&amp;spm=1018.2226.3001.4187">新建工程</a></p>
+<ol>
+<li>Project→<strong>create new project</strong>，选择芯片型号<br>
+<img src="/images/uav/keil_3.png" alt="Test"></li>
+<li><strong>新建文件夹——移植标准外设库</strong></li>
+</ol>
+<p>ProjectName/<br>
+├── ProjectName.uvprojx         # 项目配置文件<br>
+├── ProjectName.uvoptx          # 用户选项配置文件<br>
+├── Start/                    # 启动文件夹<br>
+│   ├── startup.s               # 启动汇编代码<br>
+│   ├── stm32f4xx.h             # STM32F4 系列微控制器头文件<br>
+│   ├── system_stm32f4xx.h      # 系统初始化头文件<br>
+│   ├── system_stm32f4xx.c      # 系统初始化代码<br>
+│   ├── stm32f4xx_conf.h   #配置和定义硬件外设的初始化参数<br>
+│   ├── stm32f4xx_it.c<br>
+│   ├── stm32f4xx_it.h<br>
+│   ├── CMSIS/Core/              # Cortex-M 硬件抽象层,CMSIS 核心文件<br>
+│   │   ├── core_cm4.h<br>
+│   │   ├── core_cmFunc.h<br>
+│   │   ├── core_cmInstr.h<br>
+│   │   ├── core_cmSimd.h<br>
+├── User/                     # 源文件夹<br>
+│   ├── main.c                  # 主程序入口<br>
+├── Hardware/                    # 外设<br>
+│   ├── peripheral.c            # 外设驱动实现代码<br>
+│   ├── peripheral.h            # 外设驱动声明文件<br>
+├── Libraries/                  # 库文件夹<br>
+│   ├── STM32F4xx_StdPeriph_Driver/inc # STM32 标准外设库<br>
+│   ├── STM32F4xx_StdPeriph_Driver/src</p>
+<p><strong>从下载的固件库复制相应文件到对应文件夹</strong></p>
+<ul>
+<li><strong>keil中添加文件</strong><br>
+<img src="/images/uav/keil_4.png" alt="Test"></li>
+<li><strong>包含相关文件路径</strong><br>
+<img src="/images/uav/keil_5.png" alt="Test"><br>
+<strong>预处理定义</strong><br>
+需要选择使用的芯片</li>
+</ul>
+<blockquote>
+<p>可能的报错</p>
+<ol>
+<li>fmc，fsmc相关文件内存在未定义变量名→可能stm32f401不支持，直接删去.c/.h文件</li>
+<li>头文件中定义了引用了main.h，由于直接从示例项目中copy，本项目未建立main.h，所以将该引用注释掉即可<br>
+<img src="/images/uav/keil_6.png" alt="Test"></li>
+</ol>
+</blockquote>
+<ol start="3">
+<li>做个点灯，检测一下</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &quot;stm32f4xx.h&quot;</span><br><span class="line">#include &quot;stm32f4xx_rcc.h&quot;</span><br><span class="line">#include &quot;stm32f4xx_gpio.h&quot;</span><br><span class="line"></span><br><span class="line">void GPIO_INIT(void)&#123;</span><br><span class="line">        RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);</span><br><span class="line"></span><br><span class="line">        GPIO_InitTypeDef GPIO_InitStructure;        </span><br><span class="line">        GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;</span><br><span class="line">        GPIO_InitStructure.GPIO_Mode =GPIO_Mode_OUT ; </span><br><span class="line">        GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;</span><br><span class="line">        GPIO_InitStructure.GPIO_OType=GPIO_OType_PP;</span><br><span class="line">        GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;</span><br><span class="line">        GPIO_Init(GPIOA,&amp;GPIO_InitStructure);</span><br><span class="line">&#125;       </span><br><span class="line">int main (void)&#123;     </span><br><span class="line">        </span><br><span class="line">        GPIO_INIT();</span><br><span class="line">        </span><br><span class="line">        while(1)</span><br><span class="line">        &#123;</span><br><span class="line">                GPIO_SetBits(GPIOA,GPIO_Pin_5);</span><br><span class="line">                for (int i = 0; i &lt; 1000000; i++);</span><br><span class="line">                GPIO_ResetBits(GPIOA, GPIO_Pin_5);</span><br><span class="line">                for (int i = 0; i &lt; 1000000; i++);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="keil调试">keil调试</h2>
+<p><a href="https://blog.csdn.net/ybhuangfugui/article/details/51706145">keil调试</a></p>
+<h2 id="配置相关">配置相关</h2>
+<p><strong>Option for target</strong><br>
+<a href="https://www.strongerhuang.com/Keil/Keil%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B05_%E5%B7%A5%E7%A8%8B%E7%9B%AE%E6%A0%87%E9%80%89%E9%A1%B9%E9%85%8D%E7%BD%AE%EF%BC%88%E4%B8%80%EF%BC%89.html">keil工程目标选项配置</a></p>
+<blockquote>
+<p>个人觉得这个博主关于keil的系列介绍的很详细，感兴趣的可以看一看，我只在这里记录一些常用的配置，不常用的不展开说明</p>
+</blockquote>
+<ul>
+<li>Device<br>
+<img src="/images/uav/keil_7.png" alt="Test"><br>
+新建工程的时候<strong>选择使用设备</strong>（在此之前需要去keil.arm下载相关设备的包）</li>
+<li>target<br>
+<img src="/images/uav/keil_8.png" alt="Test"></li>
+</ul>
+<ol>
+<li>Arm 编译器</li>
+<li>分为片外和片内<br>
+<strong>ROM (Flash) 地址</strong>：在 ‘Read/Only Memory Areas’ 部分，你可以看到 ‘Start’ 和 ‘Size’ 字段，这里填入的是 Flash 存储器的起始地址和大小。<br>
+程序存储地址<br>
+<strong>RAM 地址</strong>：在 ‘Read/Write Memory Areas’ 部分，同样会显示 ‘Start’ 和 ‘Size’ 字段，用于设置 RAM 的起始地址和大小。<br>
+<img src="/images/uav/keil_9.png" alt="Test"><br>
+<img src="/images/uav/keil_10.png" alt="Test"></li>
+</ol>
+<ul>
+<li>Output<br>
+<img src="/images/uav/keil_11.png" alt="Test"><br>
+输出可执行文件/库的地址，信息配置（初学者保持默认选项即可）</li>
+<li>Listing<br>
+<img src="/images/uav/keil_12.png" alt="Test"><br>
+生成列表相关配置</li>
+<li>User<br>
+<img src="/images/uav/keil_13.png" alt="Test"><br>
+编辑之前/编译之前/编译之后执行的程序</li>
+<li>C++<br>
+<img src="/images/uav/keil_14.png" alt="Test"></li>
+</ul>
+<ol>
+<li>Preprocessor symbols预处理定义<br>
+stm32f4xx.h文件中即不用再定义使用芯片</li>
+<li>Language / Code Generation</li>
+<li>Include path<br>
+项目文件所在文件夹路径都包含进来</li>
+<li>Misc Controls 多功能控件</li>
+<li>Compiler control string<br>
+对编译器执行的指令</li>
+</ol>
+<ul>
+<li>Asm<br>
+<img src="/images/uav/keil_15.png" alt="Test"><br>
+针对asm汇编的配置，与C/C++配置内容相对应</li>
+<li>Linker链接器配置<br>
+<img src="/images/uav/keil_16.png" alt="Test"><br>
+Use Memory Layout from Target Dialog内存配置对话</li>
+<li>Debug<br>
+<img src="/images/uav/keil_17.png" alt="Test"></li>
+<li>Utilities<br>
+<img src="/images/uav/keil_18.png" alt="Test"><br>
+Setting：设置<br>
+很多人下载程序之后，需要复位一下程序才运行，原因在于没有勾选“Reset and Run”<br>
+<img src="/images/uav/keil_19.png" alt="Test"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>四轴</category>
+        <category>嵌入式入门</category>
+      </categories>
+      <tags>
+        <tag>keil</tag>
+        <tag>嵌入式</tag>
+      </tags>
   </entry>
   <entry>
     <title>test</title>
     <url>/2024/08/10/test/</url>
-    <content><![CDATA[<h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h1><h2 id="欢迎来到基地！"><a href="#欢迎来到基地！" class="headerlink" title="欢迎来到基地！"></a>欢迎来到基地！</h2><blockquote>
+    <content><![CDATA[<h1>Hello World</h1>
+<h2 id="欢迎来到基地！">欢迎来到基地！</h2>
+<blockquote>
 <p>💡下面是基地创建者的小小尝试</p>
 </blockquote>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><div class="highlight-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><a class="link"   href="https://github.com/Hatty-z" >github <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>  </p>
+<h3 id="代码">代码</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="链接">链接</h3>
+<p><a href="https://github.com/Hatty-z">github</a></p>
 <p><strong>基地搭建起来啦🥳🥳🥳</strong></p>
 ]]></content>
   </entry>
