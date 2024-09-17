@@ -149,4 +149,89 @@ Setting：设置<br>
 <p><strong>基地搭建起来啦🥳🥳🥳</strong></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>手势识别模型部署在esp32s3（一）</title>
+    <url>/2024/09/17/%E6%89%8B%E5%8A%BF%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B%E9%83%A8%E7%BD%B2%E5%9C%A8esp32s3%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h1>模型开发</h1>
+<h2 id="1-数据">1. 数据</h2>
+<ul>
+<li>收集</li>
+<li>划分数据集（训练集，验证集，测试集）</li>
+<li>预处理<br>
+<em>提高数据质量，模型训练效果</em></li>
+</ul>
+<h2 id="2-模型的选择与设计">2. 模型的选择与设计</h2>
+<h2 id="3-模型训练，验证与调优">3. 模型训练，验证与调优</h2>
+<ul>
+<li>使用训练集进行模型训练</li>
+<li>使用验证集进行模型性能评估</li>
+<li>调整超参数（学习率，批次大小，迭代次数）<br>
+<em>确保模型具有良好的性能与泛化能力</em></li>
+</ul>
+<h2 id="4-模型评估">4. 模型评估</h2>
+<p>使用测试集进行模型性能评估<br>
+<strong>评估指标</strong>（准确率，召回率，F1_score等）</p>
+<h2 id="5-模型优化">5. 模型优化</h2>
+<ul>
+<li><strong>模型剪枝</strong>：减少模型参数，去除冗余节点，提高推理速度。</li>
+<li><strong>模型量化</strong>：将模型从浮点数精度降低到定点数精度（如FP32到INT8），减少计算量和内存占用。</li>
+</ul>
+<blockquote>
+<p>量化时遇到两种量化方法选择<br>
+查阅资料：<br>
+两种量化方式的比较<br>
+(A) <strong>动态量化</strong> (Dynamic Quantization)<br>
+动态量化在推理过程中对激活值（如权重和中间结果）进行量化。这意味着模型在推理时会动态地将某些浮点运算转换为整数运算，以提高推理效率。此方法不需要校准数据集，适合一些模型在部署时简化量化过程。<br>
+- 优点:<br>
+- 不需要校准数据集，过程较为简单。<br>
+- 可以立即用于大部分推理任务。<br>
+- 通常会保留浮点精度，适用于大部分任务。<br>
+- 缺点:<br>
+- 对硬件加速器的支持不如静态量化好。<br>
+- 在一些情况下，推理速度的提升有限。<br>
+(B) 静态量化 (Static Quantization)<br>
+静态量化需要在推理之前对整个模型进行量化。它通常使用校准数据集来估计模型的激活范围，并将其转化为整数格式。这种方法可以显著降低模型的大小和计算复杂度，并且在硬件加速器（如ESP32-S3）上表现更好。<br>
+- 优点:<br>
+- 大幅减少模型的大小和计算成本。<br>
+- 在硬件加速器上的性能优化效果更明显。<br>
+- 可用于部署在资源受限的设备上，如微控制器。<br>
+- 缺点:<br>
+- 需要一个校准数据集，步骤较为复杂。<br>
+- 可能会导致精度下降，尤其是在模型对量化敏感的情况下。<br>
+1. 如何选择<br>
+- 如果你需要一个较为简单的量化过程，并且对性能要求不高，可以选择动态量化。<br>
+- 如果你希望最大化模型在硬件上的性能，且有校准数据集，那么静态量化可能是更好的选择。</p>
+</blockquote>
+<ul>
+<li><strong>蒸馏学习</strong> ：使用一个大模型（教师模型）指导小模型（学生模型）学习，提高小模型的性能。<br>
+减少模型的计算量与内存占用，提高推理速度与部署效率</li>
+</ul>
+<h2 id="6-模型部署">6. 模型部署</h2>
+<p>选择合适的推理框架（TensorFlow Lite, ONNX Runtime等）</p>
+<blockquote>
+<p>查阅TensorFlow Lite  &amp; ONNX Runtime<br>
+<strong>平台和兼容性</strong>：<br>
+- TensorFlow Lite：主要设计用于移动和嵌入式设备上，如Android和iOS手机。它对TensorFlow生态系统有很好的支持。<br>
+- ONNX Runtime：支持多种平台，包括Windows、Linux、MacOS以及移动设备。它可以执行用多种框架训练的模型，只要这些模型被转换成ONNX格式，如PyTorch、TensorFlow、Scikit-Learn等。<br>
+模型转换和支持：<br>
+- TensorFlow Lite：需要将TensorFlow模型转换成TFLite格式。这一过程可能涉及到功能的简化或修改，因为TFLite不支持TensorFlow的全部操作。<br>
+- ONNX Runtime：可以加载ONNX格式的模型，这是一个开放的模型格式，支持多种深度学习框架。如果你的模型是用PyTorch、MXNet等其他框架训练的，ONNX Runtime可能是更好的选择。<br>
+性能和优化：<br>
+- TensorFlow Lite：提供了多种优化选项，包括量化和使用硬件加速（如GPU和TPU）。<br>
+- ONNX Runtime：也提供优化和硬件加速支持，包括使用NVIDIA的TensorRT、Intel的DNNL等。它的性能优化通常在服务器和云环境中表现更为突出。</p>
+</blockquote>
+<h2 id="7-监控与维护">7.  监控与维护</h2>
+<ul>
+<li>实时监控：监控模型在实际使用中的表现，及时发现和解决问题。</li>
+<li>定期更新：根据新数据和新需求，定期更新和重新训练模型，保持模型性能。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>模型轻量化部署</category>
+      </categories>
+      <tags>
+        <tag>嵌入式ai</tag>
+        <tag>esp32</tag>
+      </tags>
+  </entry>
 </search>
